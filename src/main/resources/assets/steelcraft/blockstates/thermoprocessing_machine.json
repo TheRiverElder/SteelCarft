@@ -1,0 +1,6 @@
+{
+  "variants": {
+    "open=false": { "model": "steelcraft:block/thermoprocessing_machine_closed" },
+    "open=true": { "model": "steelcraft:block/thermoprocessing_machine_open" }
+  }
+}

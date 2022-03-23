@@ -1,0 +1,6 @@
+{
+  "parent": "block/cube_all",
+  "textures": {
+    "all": "steelcraft:block/thermoprocessing_machine_closed"
+  }
+}
