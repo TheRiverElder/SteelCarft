@@ -1,6 +1,5 @@
 package io.github.theriverelder.steelcraft.items;
 
-import io.github.theriverelder.steelcraft.SteelCraft;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.item.Item;
