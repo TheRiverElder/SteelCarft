@@ -39,9 +39,6 @@ public class ThermoprocessingMachineBlock extends BlockWithEntity implements Blo
         ItemStack mainHandStack = player.getMainHandStack();
         if (mainHandStack == null || mainHandStack.isEmpty()) {
             world.setBlockState(pos, state.with(OPEN, !state.get(OPEN)));
-            BlockEntity be = world.getBlockEntity(pos);
-            if (!(be instanceof ThermoprocessingMachineBlockEntity entity)) return ActionResult.PASS;
-            entity.markDirty();
             return ActionResult.SUCCESS;
         } else if (state.get(OPEN)) {
             BlockEntity be = world.getBlockEntity(pos);
