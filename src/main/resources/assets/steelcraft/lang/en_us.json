@@ -1,0 +1,19 @@
+{
+  "item.steelcraft.hammer": "hammer",
+  "item.steelcraft.carbon_dust": "carbon dust",
+  "item.steelcraft.heated_iron_ingot": "heated iron ingot",
+  "item.steelcraft.heated_iron_sword_part": "heated iron sword part",
+  "item.steelcraft.iron_sword_part": "iron sword part",
+  "item.steelcraft.thermoprocessing_machine": "thermoprocessing machine",
+
+  "block.steelcraft.thermoprocessing_machine": "thermoprocessing machine",
+
+  "item.steelcraft.metal_base.tooltip_1": "base coefficient: %.2f",
+  "item.steelcraft.metal_base.tooltip_2": "mass: %.2f",
+  "item.steelcraft.metal_base.tooltip_3": "stress: %.2f",
+  "item.steelcraft.metal_base.tooltip_4": "grain size: %.2f",
+  "item.steelcraft.metal_base.tooltip_5": "impurity ratio: %.2f",
+  "item.steelcraft.metal_base.tooltip_6": "process count: %d",
+  "item.steelcraft.metal_base.tooltip_7": "toughness: %.2f",
+  "item.steelcraft.metal_base.tooltip_8": "hardness: %.2f"
+}

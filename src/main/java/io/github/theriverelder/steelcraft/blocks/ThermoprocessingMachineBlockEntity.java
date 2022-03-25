@@ -2,7 +2,11 @@ package io.github.theriverelder.steelcraft.blocks;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.attribute.EntityAttributeModifier;
+import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.Inventories;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
@@ -13,15 +17,17 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-import static io.github.theriverelder.steelcraft.items.Items.HEATED_IRON_INGOT;
-import static io.github.theriverelder.steelcraft.items.Items.SHAPED_HEATED_IRON_INGOT;
+import java.util.Optional;
+
+import static io.github.theriverelder.steelcraft.items.Items.*;
 
 public class ThermoprocessingMachineBlockEntity extends BlockEntity {
 
     public static final String KEY_PROCESSING_STACK = "processing_stack";
     public static final String KEY_PROGRESS = "progress";
 
-    private ItemStack processingStack = ItemStack.EMPTY;
+//    private ItemStack processingStack = ItemStack.EMPTY;
+    private final ThermoprocessingMachineInventory inventory = new ThermoprocessingMachineInventory();
     private int progress = 0;
 
     public ThermoprocessingMachineBlockEntity(BlockPos pos, BlockState state) {
@@ -29,10 +35,12 @@ public class ThermoprocessingMachineBlockEntity extends BlockEntity {
     }
 
     public static void tick(World world, BlockPos pos, BlockState state, ThermoprocessingMachineBlockEntity be) {
-        if (be.processingStack.isOf(SHAPED_HEATED_IRON_INGOT) && be.progress < 200 && !state.get(ThermoprocessingMachineBlock.OPEN)) {
+        if (be.getProcessingStack().isOf(HEATED_IRON_SWORD_PART) && be.progress < 200 && !state.get(ThermoprocessingMachineBlock.OPEN)) {
             be.progress += 1;
             if (be.progress == 200) {
-                be.processingStack = new ItemStack(Items.IRON_SWORD);
+                ItemStack product = new ItemStack(Items.IRON_SWORD);
+                product.addAttributeModifier(EntityAttributes.GENERIC_ATTACK_DAMAGE, new EntityAttributeModifier("generic.attack_damage", 20.0d, EntityAttributeModifier.Operation.ADDITION), EquipmentSlot.MAINHAND);
+                be.setProcessingStack(product);
                 be.markDirty();
                 world.setBlockState(pos, state.with(ThermoprocessingMachineBlock.OPEN, true));
             }
@@ -40,16 +48,20 @@ public class ThermoprocessingMachineBlockEntity extends BlockEntity {
     }
 
     public ItemStack getProcessingStack() {
-        return processingStack;
+        return Optional.ofNullable(inventory.getStack(0)).orElse(ItemStack.EMPTY);
+    }
+
+    public void setProcessingStack(ItemStack processingStack) {
+        this.inventory.setStack(0, Optional.ofNullable(processingStack).orElse(ItemStack.EMPTY));
     }
 
     public boolean setProcessingStackFromPlayerHand(PlayerEntity player) {
-        System.out.println("setProcessingStackFromPlayerHand");
         ItemStack mainHandStack = player.getMainHandStack();
         if (mainHandStack.isEmpty()) return false;
 
+        ItemStack processingStack = getProcessingStack();
         if (processingStack != null && !processingStack.isEmpty()) return false;
-        this.processingStack = mainHandStack.copy();
+        this.setProcessingStack(mainHandStack.copy());
         mainHandStack.setCount(0);
         progress = 0;
         markDirty();
@@ -57,10 +69,10 @@ public class ThermoprocessingMachineBlockEntity extends BlockEntity {
     }
 
     public boolean takeProcessingStack(PlayerEntity player) {
-        System.out.println("takeProcessingStack");
+        ItemStack processingStack = getProcessingStack();
         if (processingStack != null && !processingStack.isEmpty()) {
             player.giveItemStack(processingStack);
-            this.processingStack = ItemStack.EMPTY;
+            this.setProcessingStack(ItemStack.EMPTY);
             progress = 0;
             markDirty();
             return true;
@@ -70,7 +82,7 @@ public class ThermoprocessingMachineBlockEntity extends BlockEntity {
 
     @Override
     protected void writeNbt(NbtCompound nbt) {
-        nbt.put(KEY_PROCESSING_STACK, processingStack.getOrCreateNbt());
+        Inventories.writeNbt(nbt, inventory.getItems());
         nbt.putInt(KEY_PROGRESS, progress);
         super.writeNbt(nbt);
     }
@@ -78,7 +90,7 @@ public class ThermoprocessingMachineBlockEntity extends BlockEntity {
     @Override
     public void readNbt(NbtCompound nbt) {
         super.readNbt(nbt);
-        processingStack = ItemStack.fromNbt(nbt.getCompound(KEY_PROCESSING_STACK));
+        Inventories.readNbt(nbt, inventory.getItems());
         progress = nbt.getInt(KEY_PROGRESS);
     }
 

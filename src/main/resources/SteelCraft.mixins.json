@@ -4,6 +4,7 @@
   "package": "io.github.theriverelder.steelcraft.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "ItemEntityMixin"
   ],
   "client": [
   ],

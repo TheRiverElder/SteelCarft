@@ -2,7 +2,6 @@
   "schemaVersion": 1,
   "id": "steelcraft",
   "version": "${version}",
-
   "name": "SteelCraft",
   "description": "",
   "authors": [
@@ -11,10 +10,8 @@
   "contact": {
     "repo": "git@github.com:TheRiverElder/SteelCarft.git"
   },
-
   "license": "MIT",
   "icon": "assets/steelcraft/icon.png",
-
   "environment": "*",
   "entrypoints": {
     "client": [
@@ -24,14 +21,12 @@
       "io.github.theriverelder.steelcraft.SteelCraft"
     ]
   },
-
-          "mixins": [
-        "SteelCraft.mixins.json"
-      ],
-    
+  "mixins": [
+    "SteelCraft.mixins.json"
+  ],
   "depends": {
     "fabricloader": ">=0.13.3",
-              "fabric": "*",
-          "minecraft": "1.18.1"
+    "fabric": "*",
+    "minecraft": "1.18.1"
   }
 }

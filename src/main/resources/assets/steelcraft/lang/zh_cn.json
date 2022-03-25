@@ -1,0 +1,19 @@
+{
+  "item.steelcraft.hammer": "锤子",
+  "item.steelcraft.carbon_dust": "碳粉",
+  "item.steelcraft.heated_iron_ingot": "热铁锭",
+  "item.steelcraft.heated_iron_sword_part": "热铁剑部件",
+  "item.steelcraft.iron_sword_part": "铁剑部件",
+  "item.steelcraft.thermoprocessing_machine": "热处理机",
+
+  "block.steelcraft.thermoprocessing_machine": "热处理机",
+
+  "item.steelcraft.metal_base.tooltip_1": "材质系数：%.2f",
+  "item.steelcraft.metal_base.tooltip_2": "质量：%.2f",
+  "item.steelcraft.metal_base.tooltip_3": "应力：%.2f",
+  "item.steelcraft.metal_base.tooltip_4": "晶粒大小：%.2f",
+  "item.steelcraft.metal_base.tooltip_5": "杂质比例：%.2f",
+  "item.steelcraft.metal_base.tooltip_6": "加工次数：%d",
+  "item.steelcraft.metal_base.tooltip_7": "韧性：%.2f",
+  "item.steelcraft.metal_base.tooltip_8": "硬度：%.2f"
+}

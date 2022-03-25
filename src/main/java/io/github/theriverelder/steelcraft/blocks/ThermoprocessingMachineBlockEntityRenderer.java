@@ -4,6 +4,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.VertexConsumerProvider;
+import net.minecraft.client.render.WorldRenderer;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.render.model.json.ModelTransformation;
@@ -26,12 +27,12 @@ public class ThermoprocessingMachineBlockEntityRenderer implements BlockEntityRe
     public void render(ThermoprocessingMachineBlockEntity entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
         ItemStack stack = entity.getProcessingStack();
         if (ticks == 0) {
-            System.out.println("item: " + stack);
+//            System.out.println("item: " + stack);
         }
         if (stack == null || stack.isEmpty()) return;
 
         if (ticks == 0) {
-            System.out.println("render item");
+//            System.out.println("render item");
         }
         ticks = (ticks + 1) % 50;
 
@@ -45,7 +46,7 @@ public class ThermoprocessingMachineBlockEntityRenderer implements BlockEntityRe
         World world = entity.getWorld();
         if (world != null) {
             MinecraftClient.getInstance().getItemRenderer().renderItem(stack, ModelTransformation.Mode.FIXED,
-                    world.getLightLevel(entity.getPos().up()), overlay, matrices, vertexConsumers, renderId);
+                    WorldRenderer.getLightmapCoordinates(world, entity.getPos().up()), overlay, matrices, vertexConsumers, renderId);
         }
 
         matrices.pop();

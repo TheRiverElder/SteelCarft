@@ -1,13 +1,19 @@
 package io.github.theriverelder.steelcraft.items;
 
+import io.github.theriverelder.steelcraft.SteelCraft;
+import io.github.theriverelder.steelcraft.blocks.Blocks;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
 
 public class Items {
 
-    public static final Item HAMMER = new HammerItem(new Item.Settings().group(ItemGroup.TOOLS));
-    public static final Item HEATED_IRON_INGOT = new Item(new Item.Settings().group(ItemGroup.MISC));
-    public static final Item SHAPED_HEATED_IRON_INGOT = new ShapedHeatedIronIngotItem(new Item.Settings().group(ItemGroup.MISC).maxCount(1));
+    public static final Item HAMMER = new HammerItem(new Item.Settings().group(SteelCraft.ITEM_GROUP));
+    public static final Item CARBON_DUST = new Item(new Item.Settings().group(SteelCraft.ITEM_GROUP));
+    public static final MetalBaseItem HEATED_IRON_INGOT = new MetalBaseItem(new Item.Settings().group(SteelCraft.ITEM_GROUP));
+    public static final MetalBaseItem HEATED_IRON_SWORD_PART = new MetalBaseItem(new Item.Settings().group(SteelCraft.ITEM_GROUP).maxCount(1));
+    public static final MetalBaseItem IRON_SWORD_PART = new MetalBaseItem(new Item.Settings().group(SteelCraft.ITEM_GROUP).maxCount(1));
+
+    public static final Item THERMOPROCESSING_MACHINE = new BlockItem(Blocks.THERMOPROCESSING_MACHINE, new Item.Settings().group(SteelCraft.ITEM_GROUP));
 
 
 }

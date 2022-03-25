@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "steelcraft:item/shaped_heated_iron_ingot"
+    "layer0": "steelcraft:item/heated_iron_sword_part"
   }
 }

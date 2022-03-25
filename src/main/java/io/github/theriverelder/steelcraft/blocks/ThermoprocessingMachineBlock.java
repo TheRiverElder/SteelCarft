@@ -16,7 +16,7 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 import static io.github.theriverelder.steelcraft.items.Items.HAMMER;
-import static io.github.theriverelder.steelcraft.items.Items.SHAPED_HEATED_IRON_INGOT;
+import static io.github.theriverelder.steelcraft.items.Items.HEATED_IRON_SWORD_PART;
 
 public class ThermoprocessingMachineBlock extends BlockWithEntity implements BlockEntityProvider {
 
@@ -39,13 +39,15 @@ public class ThermoprocessingMachineBlock extends BlockWithEntity implements Blo
         ItemStack mainHandStack = player.getMainHandStack();
         if (mainHandStack == null || mainHandStack.isEmpty()) {
             world.setBlockState(pos, state.with(OPEN, !state.get(OPEN)));
+            BlockEntity be = world.getBlockEntity(pos);
+            if (!(be instanceof ThermoprocessingMachineBlockEntity entity)) return ActionResult.PASS;
+            entity.markDirty();
             return ActionResult.SUCCESS;
         } else if (state.get(OPEN)) {
             BlockEntity be = world.getBlockEntity(pos);
-            if (be == null) return ActionResult.PASS;
             if (!(be instanceof ThermoprocessingMachineBlockEntity entity)) return ActionResult.PASS;
 
-            if (mainHandStack.isOf(SHAPED_HEATED_IRON_INGOT))
+            if (mainHandStack.isOf(HEATED_IRON_SWORD_PART))
                 return entity.setProcessingStackFromPlayerHand(player) ? ActionResult.SUCCESS : ActionResult.FAIL;
             else if (mainHandStack.isOf(HAMMER))
                 return entity.takeProcessingStack(player) ? ActionResult.SUCCESS : ActionResult.FAIL;
