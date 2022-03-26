@@ -15,6 +15,7 @@ public class MaterialInfo {
 
     public static final String KEY_BASE_COEFFICIENT = "base_coefficient";
     public static final String KEY_MASS = "mass";
+    public static final String KEY_TEMPERATURE = "temperature";
     public static final String KEY_STRESS = "stress";
     public static final String KEY_GRAIN_SIZE = "grain_size";
     public static final String KEY_IMPURITY_RATIO = "impurity_ratio";
@@ -23,12 +24,12 @@ public class MaterialInfo {
     public static final Map<ToolMaterial, MaterialInfo> DEFAULT_INFO_MAP = new HashMap<>();
 
     static {
-        DEFAULT_INFO_MAP.put(ToolMaterials.WOOD, new MaterialInfo(1.0f, 1, 0.05f, 25f, 1.0f, 0));
-        DEFAULT_INFO_MAP.put(ToolMaterials.STONE, new MaterialInfo(2.0f, 1, 0.8f, 15f, 0.8f, 0));
-        DEFAULT_INFO_MAP.put(ToolMaterials.IRON, new MaterialInfo(3.0f, 1, 0.1f, 5f, 0.05f, 0));
-        DEFAULT_INFO_MAP.put(ToolMaterials.DIAMOND, new MaterialInfo(4.0f, 1, 0.5f, 1f, 0.8f, 0));
-        DEFAULT_INFO_MAP.put(ToolMaterials.GOLD, new MaterialInfo(5.0f, 1, 0.05f, 127f, 0.05f, 0));
-        DEFAULT_INFO_MAP.put(ToolMaterials.NETHERITE, new MaterialInfo(6.0f, 1, 0.1f, 0.1f, 0.05f, 0));
+        DEFAULT_INFO_MAP.put(ToolMaterials.WOOD, new MaterialInfo(1.0f, 1, 20, 0.05f, 25f, 1.0f, 0));
+        DEFAULT_INFO_MAP.put(ToolMaterials.STONE, new MaterialInfo(2.0f, 1, 20, 0.8f, 15f, 0.8f, 0));
+        DEFAULT_INFO_MAP.put(ToolMaterials.IRON, new MaterialInfo(3.0f, 1, 20, 0.1f, 5f, 0.05f, 0));
+        DEFAULT_INFO_MAP.put(ToolMaterials.DIAMOND, new MaterialInfo(4.0f, 1, 20, 0.5f, 1f, 0.8f, 0));
+        DEFAULT_INFO_MAP.put(ToolMaterials.GOLD, new MaterialInfo(5.0f, 1, 20, 0.05f, 127f, 0.05f, 0));
+        DEFAULT_INFO_MAP.put(ToolMaterials.NETHERITE, new MaterialInfo(6.0f, 1, 20, 0.1f, 0.1f, 0.05f, 0));
     }
 
     public static MaterialInfo fromToolMaterial(ToolMaterial toolMaterial) {
@@ -43,12 +44,13 @@ public class MaterialInfo {
     }
 
     public MaterialInfo() {
-        this(0 ,0, 0, 0, 0, 0);
+        this(0 ,0, 20, 0, 0, 0, 0);
     }
 
-    public MaterialInfo(float baseCoefficient, float mass, float stress, float grainSize, float impurityRatio, int processCount) {
+    public MaterialInfo(float baseCoefficient, float mass, float temperature, float stress, float grainSize, float impurityRatio, int processCount) {
         this.baseCoefficient = baseCoefficient;
         this.mass = mass;
+        this.temperature = temperature;
         this.stress = stress;
         this.grainSize = grainSize;
         this.impurityRatio = impurityRatio;
@@ -64,6 +66,11 @@ public class MaterialInfo {
      * 质量
      */
     private float mass;
+
+    /**
+     * 温度
+     */
+    private float temperature;
 
     /**
      * 材料的应力
@@ -94,7 +101,7 @@ public class MaterialInfo {
     }
 
     public void setBaseCoefficient(float baseCoefficient) {
-        this.baseCoefficient = baseCoefficient;
+        this.baseCoefficient = Math.max(0, baseCoefficient);
     }
 
     public float getMass() {
@@ -102,7 +109,15 @@ public class MaterialInfo {
     }
 
     public void setMass(float mass) {
-        this.mass = mass;
+        this.mass = Math.max(0, mass);
+    }
+
+    public float getTemperature() {
+        return temperature;
+    }
+
+    public void setTemperature(float temperature) {
+        this.temperature = temperature;
     }
 
     public float getStress() {
@@ -110,7 +125,7 @@ public class MaterialInfo {
     }
 
     public void setStress(float stress) {
-        this.stress = stress;
+        this.stress = Math.max(0, stress);
     }
 
     public float getGrainSize() {
@@ -118,7 +133,7 @@ public class MaterialInfo {
     }
 
     public void setGrainSize(float grainSize) {
-        this.grainSize = grainSize;
+        this.grainSize = Math.max(0, grainSize);
     }
 
     public float getImpurityRatio() {
@@ -126,7 +141,7 @@ public class MaterialInfo {
     }
 
     public void setImpurityRatio(float impurityRatio) {
-        this.impurityRatio = impurityRatio;
+        this.impurityRatio = Math.min(Math.max(0, impurityRatio), 1);
     }
 
     public int getProcessCount() {
@@ -134,7 +149,7 @@ public class MaterialInfo {
     }
 
     public void setProcessCount(int processCount) {
-        this.processCount = processCount;
+        this.processCount = Math.max(0, processCount);
     }
 
     public boolean isWasted() {
@@ -184,6 +199,7 @@ public class MaterialInfo {
     public void writeNbt(NbtCompound nbt) {
         nbt.putFloat(KEY_BASE_COEFFICIENT, baseCoefficient);
         nbt.putFloat(KEY_MASS, mass);
+        nbt.putFloat(KEY_TEMPERATURE, temperature);
         nbt.putFloat(KEY_STRESS, stress);
         nbt.putFloat(KEY_GRAIN_SIZE, grainSize);
         nbt.putFloat(KEY_IMPURITY_RATIO, impurityRatio);
@@ -193,6 +209,7 @@ public class MaterialInfo {
     public void readNbt(NbtCompound nbt) {
         baseCoefficient = nbt.getFloat(KEY_BASE_COEFFICIENT);
         mass = nbt.getFloat(KEY_MASS);
+        temperature = nbt.getFloat(KEY_TEMPERATURE);
         stress = nbt.getFloat(KEY_STRESS);
         grainSize = nbt.getFloat(KEY_GRAIN_SIZE);
         impurityRatio = nbt.getFloat(KEY_IMPURITY_RATIO);
@@ -204,6 +221,7 @@ public class MaterialInfo {
 
         c.baseCoefficient = baseCoefficient;
         c.mass = mass;
+        c.temperature = temperature;
         c.stress = stress;
         c.grainSize = grainSize;
         c.impurityRatio = impurityRatio;

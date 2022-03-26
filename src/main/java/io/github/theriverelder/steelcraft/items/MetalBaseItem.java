@@ -52,6 +52,18 @@ public class MetalBaseItem extends Item {
         super.appendTooltip(stack, world, tooltip, context);
     }
 
+    public void tick(ItemStack stack) {
+        MaterialInfo info = MaterialInfo.fromStack(stack);
+
+        if (info.getTemperature() > 1000) {
+            info.setStress(info.getStress() - 0.1f);
+            info.setGrainSize(info.getGrainSize() - 0.1f);
+        } else if (info.getTemperature() > 200) {
+            info.setStress(info.getStress() - 0.02f);
+            info.setGrainSize(info.getGrainSize() - 0.02f);
+        }
+    }
+
     public static void modifyByMaterial(ItemStack stack, MaterialInfo info) {
 
         stack.addAttributeModifier(
