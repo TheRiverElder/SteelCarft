@@ -160,9 +160,9 @@ public class MaterialInfo {
 
     public float getToughness() {
         return baseCoefficient
-                - stress * 2.0f
-                - impurityRatio * 2.0f
-                - grainSize * 2.0f;
+                - stress * 0.2f
+                - impurityRatio * 0.2f
+                - grainSize * 0.2f;
     }
 
     public float getHardness() {
@@ -173,19 +173,19 @@ public class MaterialInfo {
     }
 
     public float getAttackDamage() {
-        return 1;
+        return getToughness() * 3.0f;
     }
 
     public float getAttackSpeed() {
-        return 1;
+        return 0.3f * (0.3f * getToughness() + 0.7f * getHardness()) * (0.5f / (mass + 1) + 0.5f);
     }
 
     public int getMiningLevel() {
-        return 1;
+        return (int) getToughness();
     }
 
     public float getMiningSpeed() {
-        return 1;
+        return 0.3f * getToughness() + 0.7f * getHardness();
     }
 
     public ItemStack setToStack(ItemStack stack) {

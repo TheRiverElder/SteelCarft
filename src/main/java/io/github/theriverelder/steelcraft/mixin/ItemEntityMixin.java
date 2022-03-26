@@ -1,5 +1,7 @@
 package io.github.theriverelder.steelcraft.mixin;
 
+import io.github.theriverelder.steelcraft.data.MaterialInfo;
+import io.github.theriverelder.steelcraft.items.MetalBaseItem;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
@@ -24,8 +26,9 @@ public class ItemEntityMixin {
         if (!ie.isInsideWaterOrBubbleColumn()) return;
         ItemStack stack = ie.getStack();
         if (!stack.isOf(HEATED_IRON_SWORD_PART)) return;
+
         ItemStack product = new ItemStack(Items.IRON_SWORD);
-        product.addAttributeModifier(EntityAttributes.GENERIC_ATTACK_DAMAGE, new EntityAttributeModifier("generic.attack_damage", 30.0d, EntityAttributeModifier.Operation.ADDITION), EquipmentSlot.MAINHAND);
+        MetalBaseItem.modifyByMaterial(product, MaterialInfo.fromStack(stack));
         ie.setStack(product);
         ie.getWorld().playSound(ie.getX(), ie.getY(), ie.getZ(), SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.VOICE, 1.0f, 1.0f, true);
     }

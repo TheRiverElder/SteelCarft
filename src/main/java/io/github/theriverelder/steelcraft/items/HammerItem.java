@@ -24,7 +24,7 @@ public class HammerItem extends Item {
 
     public static final List<HammerRecipe> RECIPES = new ArrayList<>();
 
-    static {
+    public static void setupRecipes() {
         RECIPES.add(new HammerRecipe(CHARCOAL, null, (m, a) -> new ItemStack(CARBON_DUST)));
         RECIPES.add(new HammerRecipe(COAL, null, (m, a) -> new ItemStack(CARBON_DUST)));
         RECIPES.add(new HammerRecipe(HEATED_IRON_INGOT, CARBON_DUST, HammerItem::makePart));
@@ -87,12 +87,14 @@ public class HammerItem extends Item {
     @Nullable
     public ItemStack craft(ItemStack mainMaterial, @Nullable ItemStack addition) {
         for (HammerRecipe r : RECIPES) {
+            Item a = r.getAddition();
             if (mainMaterial.isOf(r.getMainMaterial())
-                    && (r.getAddition() == null || (addition != null && !addition.isEmpty() && addition.isOf(r.getAddition())))
+                    && (a == null || (addition != null && !addition.isEmpty() && addition.isOf(a)))
             ) {
                 ItemStack result = r.getOutput().provide(mainMaterial, addition);
                 mainMaterial.setCount(mainMaterial.getCount() - 1);
-                if (addition != null) {
+
+                if (addition != null && a != null) {
                     addition.setCount(addition.getCount() - 1);
                 }
                 return result;

@@ -8,6 +8,9 @@
 
   "block.steelcraft.thermoprocessing_machine": "热处理机",
 
+  "attribute.name.steelcraft.mining_level": "挖掘等级",
+  "attribute.name.steelcraft.mining_speed": "挖掘速度",
+
   "item.steelcraft.metal_base.tooltip_1": "材质系数：%.2f",
   "item.steelcraft.metal_base.tooltip_2": "质量：%.2f",
   "item.steelcraft.metal_base.tooltip_3": "应力：%.2f",

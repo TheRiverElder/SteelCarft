@@ -8,6 +8,9 @@
 
   "block.steelcraft.thermoprocessing_machine": "thermoprocessing machine",
 
+  "attribute.name.steelcraft.mining_level": "mining level",
+  "attribute.name.steelcraft.mining_speed": "mining speed",
+
   "item.steelcraft.metal_base.tooltip_1": "base coefficient: %.2f",
   "item.steelcraft.metal_base.tooltip_2": "mass: %.2f",
   "item.steelcraft.metal_base.tooltip_3": "stress: %.2f",

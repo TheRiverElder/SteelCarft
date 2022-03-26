@@ -2,6 +2,7 @@ package io.github.theriverelder.steelcraft;
 
 import io.github.theriverelder.steelcraft.blocks.ThermoprocessingMachineBlock;
 import io.github.theriverelder.steelcraft.blocks.ThermoprocessingMachineBlockEntity;
+import io.github.theriverelder.steelcraft.items.HammerItem;
 import io.github.theriverelder.steelcraft.items.Items;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
@@ -27,8 +28,8 @@ public class SteelCraft implements ModInitializer {
     @Override
     public void onInitialize() {
         Registry.register(Registry.ITEM, new Identifier(ID, "hammer"), HAMMER);
-        Registry.register(Registry.ITEM, new Identifier(ID, "heated_iron_ingot"), HEATED_IRON_INGOT);
         Registry.register(Registry.ITEM, new Identifier(ID, "carbon_dust"), CARBON_DUST);
+        Registry.register(Registry.ITEM, new Identifier(ID, "heated_iron_ingot"), HEATED_IRON_INGOT);
         Registry.register(Registry.ITEM, new Identifier(ID, "heated_iron_sword_part"), HEATED_IRON_SWORD_PART);
         Registry.register(Registry.ITEM, new Identifier(ID, "iron_sword_part"), IRON_SWORD_PART);
         Registry.register(Registry.ITEM, new Identifier(ID, "thermoprocessing_machine"), Items.THERMOPROCESSING_MACHINE);
@@ -36,5 +37,7 @@ public class SteelCraft implements ModInitializer {
         Registry.register(Registry.BLOCK, new Identifier(ID, "thermoprocessing_machine"), THERMOPROCESSING_MACHINE);
 
         ThermoprocessingMachineBlock.ENTITY = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(ID, "thermoprocessing_machine_entity"), FabricBlockEntityTypeBuilder.create(ThermoprocessingMachineBlockEntity::new, THERMOPROCESSING_MACHINE).build(null));
+
+        HammerItem.setupRecipes();
     }
 }
