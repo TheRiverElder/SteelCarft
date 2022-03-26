@@ -1,11 +1,15 @@
 package io.github.theriverelder.steelcraft.data;
 
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolMaterial;
 import net.minecraft.item.ToolMaterials;
 import net.minecraft.nbt.NbtCompound;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
+
+import static io.github.theriverelder.steelcraft.items.MetalBaseItem.KEY_MATERIAL_INFO;
 
 public class MaterialInfo {
 
@@ -16,15 +20,39 @@ public class MaterialInfo {
     public static final String KEY_IMPURITY_RATIO = "impurity_ratio";
     public static final String KEY_PROCESS_COUNT = "process_count";
 
-    public static final Map<ToolMaterial, Double> BASE_COEFFICIENTS = new HashMap<>();
+    public static final Map<ToolMaterial, MaterialInfo> DEFAULT_INFO_MAP = new HashMap<>();
 
     static {
-        BASE_COEFFICIENTS.put(ToolMaterials.WOOD, 1.0d);
-        BASE_COEFFICIENTS.put(ToolMaterials.STONE, 2.0d);
-        BASE_COEFFICIENTS.put(ToolMaterials.IRON, 3.0d);
-        BASE_COEFFICIENTS.put(ToolMaterials.DIAMOND, 4.0d);
-        BASE_COEFFICIENTS.put(ToolMaterials.GOLD, 5.0d);
-        BASE_COEFFICIENTS.put(ToolMaterials.NETHERITE, 6.0d);
+        DEFAULT_INFO_MAP.put(ToolMaterials.WOOD, new MaterialInfo(1.0f, 1, 0.05f, 25f, 1.0f, 0));
+        DEFAULT_INFO_MAP.put(ToolMaterials.STONE, new MaterialInfo(2.0f, 1, 0.8f, 15f, 0.8f, 0));
+        DEFAULT_INFO_MAP.put(ToolMaterials.IRON, new MaterialInfo(3.0f, 1, 0.1f, 5f, 0.05f, 0));
+        DEFAULT_INFO_MAP.put(ToolMaterials.DIAMOND, new MaterialInfo(4.0f, 1, 0.5f, 1f, 0.8f, 0));
+        DEFAULT_INFO_MAP.put(ToolMaterials.GOLD, new MaterialInfo(5.0f, 1, 0.05f, 127f, 0.05f, 0));
+        DEFAULT_INFO_MAP.put(ToolMaterials.NETHERITE, new MaterialInfo(6.0f, 1, 0.1f, 0.1f, 0.05f, 0));
+    }
+
+    public static MaterialInfo fromToolMaterial(ToolMaterial toolMaterial) {
+        return DEFAULT_INFO_MAP.getOrDefault(toolMaterial, new MaterialInfo());
+    }
+
+    public static MaterialInfo fromStack(ItemStack stack) {
+        NbtCompound nbt = Optional.ofNullable(stack.getSubNbt(KEY_MATERIAL_INFO)).orElseGet(NbtCompound::new);
+        MaterialInfo materialInfo = new MaterialInfo();
+        materialInfo.readNbt(nbt);
+        return materialInfo;
+    }
+
+    public MaterialInfo() {
+        this(0 ,0, 0, 0, 0, 0);
+    }
+
+    public MaterialInfo(float baseCoefficient, float mass, float stress, float grainSize, float impurityRatio, int processCount) {
+        this.baseCoefficient = baseCoefficient;
+        this.mass = mass;
+        this.stress = stress;
+        this.grainSize = grainSize;
+        this.impurityRatio = impurityRatio;
+        this.processCount = processCount;
     }
 
     /**
@@ -137,12 +165,19 @@ public class MaterialInfo {
         return 1;
     }
 
-    public int getMineLevel() {
+    public int getMiningLevel() {
         return 1;
     }
 
-    public float getMineSpeed() {
+    public float getMiningSpeed() {
         return 1;
+    }
+
+    public ItemStack setToStack(ItemStack stack) {
+        NbtCompound nbt = new NbtCompound();
+        writeNbt(nbt);
+        stack.setSubNbt(KEY_MATERIAL_INFO, nbt);
+        return stack;
     }
 
 
@@ -162,6 +197,19 @@ public class MaterialInfo {
         grainSize = nbt.getFloat(KEY_GRAIN_SIZE);
         impurityRatio = nbt.getFloat(KEY_IMPURITY_RATIO);
         processCount = nbt.getInt(KEY_PROCESS_COUNT);
+    }
+
+    public MaterialInfo copy() {
+        MaterialInfo c = new MaterialInfo();
+
+        c.baseCoefficient = baseCoefficient;
+        c.mass = mass;
+        c.stress = stress;
+        c.grainSize = grainSize;
+        c.impurityRatio = impurityRatio;
+        c.processCount = processCount;
+
+        return c;
     }
 
 }

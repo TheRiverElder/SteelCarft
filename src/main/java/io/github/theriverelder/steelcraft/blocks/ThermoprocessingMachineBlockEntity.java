@@ -1,5 +1,7 @@
 package io.github.theriverelder.steelcraft.blocks;
 
+import io.github.theriverelder.steelcraft.data.MaterialInfo;
+import io.github.theriverelder.steelcraft.items.MetalBaseItem;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.EquipmentSlot;
@@ -39,7 +41,7 @@ public class ThermoprocessingMachineBlockEntity extends BlockEntity {
             be.progress += 1;
             if (be.progress == 200) {
                 ItemStack product = new ItemStack(Items.IRON_SWORD);
-                product.addAttributeModifier(EntityAttributes.GENERIC_ATTACK_DAMAGE, new EntityAttributeModifier("generic.attack_damage", 20.0d, EntityAttributeModifier.Operation.ADDITION), EquipmentSlot.MAINHAND);
+                MetalBaseItem.modifyByMaterial(product, MaterialInfo.fromStack(be.getProcessingStack()));
                 be.setProcessingStack(product);
                 be.markDirty();
                 world.setBlockState(pos, state.with(ThermoprocessingMachineBlock.OPEN, true));
