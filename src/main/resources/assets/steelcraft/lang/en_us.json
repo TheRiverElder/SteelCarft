@@ -1,22 +1,26 @@
 {
-  "item.steelcraft.hammer": "hammer",
-  "item.steelcraft.carbon_dust": "carbon dust",
-  "item.steelcraft.heated_iron_ingot": "heated iron ingot",
-  "item.steelcraft.heated_iron_sword_part": "heated iron sword part",
-  "item.steelcraft.iron_sword_part": "iron sword part",
-  "item.steelcraft.thermoprocessing_machine": "thermoprocessing machine",
+  "item.steelcraft.hammer": "Hammer",
+  "item.steelcraft.carbon_dust": "Carbon dust",
+  "item.steelcraft.heated_iron_ingot": "Heated iron ingot",
+  "item.steelcraft.heated_iron_sword_part": "Heated iron sword part",
+  "item.steelcraft.iron_sword_part": "iIron sword part",
+  "item.steelcraft.pyrite_ore": "Pyrite ore",
+  "item.steelcraft.raw_pyrite": "Taw pyrite",
+  "item.steelcraft.pyrite_ingot": "Pyrite ingot",
+  "item.steelcraft.thermoprocessing_machine": "Thermoprocessing machine",
 
-  "block.steelcraft.thermoprocessing_machine": "thermoprocessing machine",
+  "block.steelcraft.pyrite_ore": "Pyrite ore",
+  "block.steelcraft.thermoprocessing_machine": "Thermoprocessing machine",
 
-  "attribute.name.steelcraft.mining_level": "mining level",
-  "attribute.name.steelcraft.mining_speed": "mining speed",
+  "attribute.name.steelcraft.mining_level": "Mining level",
+  "attribute.name.steelcraft.mining_speed": "Mining speed",
 
-  "item.steelcraft.metal_base.tooltip_1": "base coefficient: %.2f",
-  "item.steelcraft.metal_base.tooltip_2": "mass: %.2f",
-  "item.steelcraft.metal_base.tooltip_3": "stress: %.2f",
-  "item.steelcraft.metal_base.tooltip_4": "grain size: %.2f",
-  "item.steelcraft.metal_base.tooltip_5": "impurity ratio: %.2f",
-  "item.steelcraft.metal_base.tooltip_6": "process count: %d",
-  "item.steelcraft.metal_base.tooltip_7": "toughness: %.2f",
-  "item.steelcraft.metal_base.tooltip_8": "hardness: %.2f"
+  "item.steelcraft.metal_base.tooltip_1": "Base coefficient: %.2f",
+  "item.steelcraft.metal_base.tooltip_2": "Mass: %.2f",
+  "item.steelcraft.metal_base.tooltip_3": "Stress: %.2f",
+  "item.steelcraft.metal_base.tooltip_4": "Grain size: %.2f",
+  "item.steelcraft.metal_base.tooltip_5": "Impurity ratio: %.2f",
+  "item.steelcraft.metal_base.tooltip_6": "Process count: %d",
+  "item.steelcraft.metal_base.tooltip_7": "Toughness: %.2f",
+  "item.steelcraft.metal_base.tooltip_8": "Hardness: %.2f"
 }

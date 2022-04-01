@@ -13,7 +13,11 @@ public class Items {
     public static final MetalBaseItem HEATED_IRON_SWORD_PART = new MetalBaseItem(new Item.Settings().group(SteelCraft.ITEM_GROUP).maxCount(1));
     public static final MetalBaseItem IRON_SWORD_PART = new MetalBaseItem(new Item.Settings().group(SteelCraft.ITEM_GROUP).maxCount(1));
 
+    public static final MetalBaseItem RAW_PYRITE = new MetalBaseItem(new Item.Settings().group(SteelCraft.ITEM_GROUP));
+    public static final MetalBaseItem PYRITE_INGOT = new MetalBaseItem(new Item.Settings().group(SteelCraft.ITEM_GROUP));
+
     public static final Item THERMOPROCESSING_MACHINE = new BlockItem(Blocks.THERMOPROCESSING_MACHINE, new Item.Settings().group(SteelCraft.ITEM_GROUP));
+    public static final Item PYRITE_ORE = new BlockItem(Blocks.PYRITE_ORE, new Item.Settings().group(SteelCraft.ITEM_GROUP));
 
 
 }

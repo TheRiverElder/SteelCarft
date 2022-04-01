@@ -4,8 +4,12 @@
   "item.steelcraft.heated_iron_ingot": "热铁锭",
   "item.steelcraft.heated_iron_sword_part": "热铁剑部件",
   "item.steelcraft.iron_sword_part": "铁剑部件",
+  "item.steelcraft.pyrite_ore": "黄铁矿",
+  "item.steelcraft.raw_pyrite": "生黄铁",
+  "item.steelcraft.pyrite_ingot": "黄铁锭",
   "item.steelcraft.thermoprocessing_machine": "热处理机",
 
+  "block.steelcraft.pyrite_ore": "黄铁矿",
   "block.steelcraft.thermoprocessing_machine": "热处理机",
 
   "attribute.name.steelcraft.mining_level": "挖掘等级",
