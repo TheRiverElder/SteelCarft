@@ -1,8 +1,11 @@
 package io.github.theriverelder.steelcraft.items;
 
-import io.github.theriverelder.steelcraft.data.HammerRecipe;
+import io.github.theriverelder.steelcraft.SteelCraft;
 import io.github.theriverelder.steelcraft.data.MaterialInfo;
+import io.github.theriverelder.steelcraft.recipe.HammerRecipe;
+import io.github.theriverelder.steelcraft.recipe.HammerRecipeInventory;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.entity.FurnaceBlockEntity;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -12,23 +15,12 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Direction;
 
-import javax.annotation.Nullable;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
-import static io.github.theriverelder.steelcraft.items.Items.*;
-import static net.minecraft.item.Items.CHARCOAL;
-import static net.minecraft.item.Items.COAL;
+import static io.github.theriverelder.steelcraft.items.Items.HEATED_IRON_SWORD_PART;
 
 public class HammerItem extends Item {
-
-    public static final List<HammerRecipe> RECIPES = new ArrayList<>();
-
-    public static void setupRecipes() {
-        RECIPES.add(new HammerRecipe(CHARCOAL, null, (m, a) -> new ItemStack(CARBON_DUST)));
-        RECIPES.add(new HammerRecipe(COAL, null, (m, a) -> new ItemStack(CARBON_DUST)));
-        RECIPES.add(new HammerRecipe(HEATED_IRON_INGOT, CARBON_DUST, HammerItem::makePart));
-    }
 
     private static ItemStack makePart(ItemStack mainMaterial, ItemStack addition) {
         MaterialInfo info = MaterialInfo.fromStack(mainMaterial);
@@ -66,40 +58,22 @@ public class HammerItem extends Item {
         if (!state.isOf(Blocks.ANVIL) || side != Direction.UP) return ActionResult.PASS;
         Box box = new Box(pos.up());
 
-        List<ItemEntity> itemEntities =  world.getEntitiesByClass(ItemEntity.class, box, (ItemEntity e) -> RECIPES.stream().anyMatch(r -> e.getStack().isOf(r.getMainMaterial())));
+        List<ItemEntity> itemEntities =  world.getEntitiesByClass(ItemEntity.class, box, (ItemEntity e) -> true);
         if (itemEntities == null || itemEntities.size() == 0 || itemEntities.get(0) == null) return ActionResult.PASS;
 
         ItemEntity itemEntity = itemEntities.get(0);
         ItemStack mainMaterial = itemEntity.getStack();
 
-        ItemStack result = craft(mainMaterial, miner.getOffHandStack());
+        Optional<HammerRecipe> recipeOpt = world.getRecipeManager().getFirstMatch(SteelCraft.HAMMER_RECIPE_TYPE, new HammerRecipeInventory(mainMaterial, miner.getOffHandStack()), world);
+        if (recipeOpt.isEmpty()) return ActionResult.FAIL;
+        HammerRecipe recipe = recipeOpt.get();
 
-        if (result != null) {
-            result.onCraft(world, miner, result.getCount());
-            itemEntity.setStack(result);
-            miner.playSound(SoundEvents.BLOCK_ANVIL_USE, 1, 1);
-            return ActionResult.SUCCESS;
-        }
+        ItemStack result = recipe.getOutput();
 
-        return ActionResult.FAIL;
-    }
+        result.onCraft(world, miner, result.getCount());
+        itemEntity.setStack(result);
+        miner.playSound(SoundEvents.BLOCK_ANVIL_USE, 1, 1);
+        return ActionResult.SUCCESS;
 
-    @Nullable
-    public ItemStack craft(ItemStack mainMaterial, @Nullable ItemStack addition) {
-        for (HammerRecipe r : RECIPES) {
-            Item a = r.getAddition();
-            if (mainMaterial.isOf(r.getMainMaterial())
-                    && (a == null || (addition != null && !addition.isEmpty() && addition.isOf(a)))
-            ) {
-                ItemStack result = r.getOutput().provide(mainMaterial, addition);
-                mainMaterial.setCount(mainMaterial.getCount() - 1);
-
-                if (addition != null && a != null) {
-                    addition.setCount(addition.getCount() - 1);
-                }
-                return result;
-            }
-        }
-        return null;
     }
 }

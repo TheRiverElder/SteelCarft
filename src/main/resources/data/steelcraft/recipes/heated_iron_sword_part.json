@@ -1,0 +1,10 @@
+{
+  "type": "steelcraft:hammer",
+  "material": {
+    "item": "steelcraft:heated_iron_ingot"
+  },
+  "addon": {
+    "item": "steelcraft:carbon_dust"
+  },
+  "result": "steelcraft:heated_iron_sword_part"
+}

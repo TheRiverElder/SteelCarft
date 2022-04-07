@@ -4,13 +4,17 @@ import io.github.theriverelder.steelcraft.blocks.Blocks;
 import io.github.theriverelder.steelcraft.blocks.ThermoprocessingMachineBlock;
 import io.github.theriverelder.steelcraft.blocks.ThermoprocessingMachineBlockEntity;
 import io.github.theriverelder.steelcraft.items.HammerItem;
+import io.github.theriverelder.steelcraft.recipe.HammerRecipeSerializer;
 import io.github.theriverelder.steelcraft.items.Items;
+import io.github.theriverelder.steelcraft.recipe.HammerRecipe;
 import io.github.theriverelder.steelcraft.worldgen.OreGen;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
+import net.minecraft.recipe.RecipeSerializer;
+import net.minecraft.recipe.RecipeType;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import org.apache.logging.log4j.LogManager;
@@ -23,6 +27,8 @@ public class SteelCraft implements ModInitializer {
     public static final String ID = "steelcraft";
 
     public static final ItemGroup ITEM_GROUP = FabricItemGroupBuilder.build(new Identifier(ID, "general"), () -> new ItemStack(Items.THERMOPROCESSING_MACHINE));
+    public static final RecipeType<HammerRecipe> HAMMER_RECIPE_TYPE = Registry.register(Registry.RECIPE_TYPE, new Identifier(ID, HammerRecipe.Type.ID), HammerRecipe.Type.INSTANCE);
+    public static final RecipeSerializer<HammerRecipe> HAMMER_RECIPE_SERIALIZER = Registry.register(Registry.RECIPE_SERIALIZER, new Identifier(ID, "hammer"), new HammerRecipeSerializer());
 
     public static final Logger LOGGER = LogManager.getLogger(ID);
 
@@ -44,7 +50,5 @@ public class SteelCraft implements ModInitializer {
         ThermoprocessingMachineBlock.ENTITY = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(ID, "thermoprocessing_machine_entity"), FabricBlockEntityTypeBuilder.create(ThermoprocessingMachineBlockEntity::new, Blocks.THERMOPROCESSING_MACHINE).build(null));
 
         OreGen.register();
-
-        HammerItem.setupRecipes();
     }
 }
