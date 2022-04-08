@@ -47,7 +47,17 @@ public class HammerRecipe implements Recipe<HammerRecipeInventory> {
 
         if (!material.test(actualMaterial)) return false;
 
-        return addon == null || !addon.test(actualAddon);
+        return addon == null || (!actualAddon.isEmpty() && addon.test(actualAddon));
+    }
+
+    public void consume(HammerRecipeInventory inventory, World world) {
+        ItemStack actualMaterial = inventory.getMaterial();
+        ItemStack actualAddon = inventory.getAddon();
+
+        actualMaterial.setCount(actualMaterial.getCount() - 1);
+        if (addon != null && !actualAddon.isEmpty()) {
+            actualAddon.setCount(actualAddon.getCount() - 1);
+        }
     }
 
     @Override
@@ -73,7 +83,7 @@ public class HammerRecipe implements Recipe<HammerRecipeInventory> {
 
 
     public static class Type implements RecipeType<HammerRecipe> {
-        public Type() {}
+        private Type() {}
         public static final Type INSTANCE = new Type();
         public static final String ID = "hammer";
 

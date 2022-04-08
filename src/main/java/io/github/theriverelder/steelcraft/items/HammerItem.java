@@ -5,7 +5,6 @@ import io.github.theriverelder.steelcraft.data.MaterialInfo;
 import io.github.theriverelder.steelcraft.recipe.HammerRecipe;
 import io.github.theriverelder.steelcraft.recipe.HammerRecipeInventory;
 import net.minecraft.block.Blocks;
-import net.minecraft.block.entity.FurnaceBlockEntity;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -63,15 +62,23 @@ public class HammerItem extends Item {
 
         ItemEntity itemEntity = itemEntities.get(0);
         ItemStack mainMaterial = itemEntity.getStack();
+        ItemStack addon = miner.getOffHandStack();
 
-        Optional<HammerRecipe> recipeOpt = world.getRecipeManager().getFirstMatch(SteelCraft.HAMMER_RECIPE_TYPE, new HammerRecipeInventory(mainMaterial, miner.getOffHandStack()), world);
+        HammerRecipeInventory inventory = new HammerRecipeInventory(mainMaterial, addon);
+        Optional<HammerRecipe> recipeOpt = world.getRecipeManager().getFirstMatch(SteelCraft.HAMMER_RECIPE_TYPE, inventory, world);
         if (recipeOpt.isEmpty()) return ActionResult.FAIL;
         HammerRecipe recipe = recipeOpt.get();
 
+        recipe.consume(inventory, world);
         ItemStack result = recipe.getOutput();
 
         result.onCraft(world, miner, result.getCount());
-        itemEntity.setStack(result);
+        if (mainMaterial.isEmpty()) {
+            itemEntity.setStack(result);
+        } else if (!result.isEmpty()){
+            ItemEntity newItemEntity = new ItemEntity(world, itemEntity.getX(), itemEntity.getY(), itemEntity.getZ(), result);
+            world.spawnEntity(newItemEntity);
+        }
         miner.playSound(SoundEvents.BLOCK_ANVIL_USE, 1, 1);
         return ActionResult.SUCCESS;
 

@@ -13,7 +13,6 @@ import net.minecraft.util.registry.Registry;
 public class HammerRecipeSerializer implements RecipeSerializer<HammerRecipe> {
     @Override
     public HammerRecipe read(Identifier id, JsonObject json) {
-//        System.out.println("lollollollollollollollollollollollollollollollollollollollollollollollollollollollollollollollollollollollollollollollollollollollollollollollollollollollollollollollollollollollollollollollollollollollollollol");
 //        String group = JsonHelper.getString(json, "group", "");
 
         JsonElement materialJson = JsonHelper.hasArray(json, "material") ? JsonHelper.getArray(json, "material") : JsonHelper.getObject(json, "material");
@@ -21,9 +20,9 @@ public class HammerRecipeSerializer implements RecipeSerializer<HammerRecipe> {
 
         JsonElement addonJson = JsonHelper.hasArray(json, "addon")
                 ? JsonHelper.getArray(json, "addon")
-                : JsonHelper.hasJsonObject(json, "addon")
+                : (JsonHelper.hasJsonObject(json, "addon")
                     ? JsonHelper.getObject(json, "addon")
-                    : null;
+                    : null);
         Ingredient addon = addonJson == null ? null : Ingredient.fromJson(addonJson);
 
         String resultIdStr = JsonHelper.getString(json, "result");
